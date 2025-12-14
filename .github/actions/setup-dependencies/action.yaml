@@ -1,0 +1,21 @@
+name: "Setup Dependencies"
+description: "Setup dependencies for the service
+
+inputs:
+  install_task:
+    description: "Install Task"
+    default: "true"
+  task_version:
+    description: "Task Version to install"
+    default: "v3.45.5"
+
+runs:
+  using: composite
+  steps:
+    - name: Install Task
+      if: inputs.install_task == "true"
+      uses: supplypike/setup-bin@v4
+      with:
+        uri: https://github.com/go-task/task/releases/download/${{ inputs.task_version }}/task_linux_amd64.tar.gz
+        name: task
+        version: ${{ inputs.task_version }}
