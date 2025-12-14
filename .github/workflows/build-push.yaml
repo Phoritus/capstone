@@ -24,8 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        service: ["services/node/api-node"]
-        # service: ${{ fromJson(needs.filter.outputs.services) }}
+        service: ${{ fromJson(needs.filter.outputs.services) }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -54,8 +53,13 @@ jobs:
           ENVIRONMENT: production
           SERVICE: ${{ matrix.service }}
         run: |
-          version=$(task utils:generate-version -- "$SERVICE")
-          image_tag=$(task utils:generate-version-tag -- "$SERVICE")
+          if [ "${ENVIRONMENT}" == "production" ]; then
+            version=$(task utils:generate-version -- "$SERVICE")
+            image_tag=$(task utils:generate-version-tag -- "$SERVICE")
+          else
+            version=$(task utils:generate-extended-version -- "$SERVICE")
+            image_tag=$(task utils:generate-extended-version-tag -- "$SERVICE")
+          fi
           echo "version=${version}" >> $GITHUB_OUTPUT
           echo "image_tag=${image_tag}" >> $GITHUB_OUTPUT
 

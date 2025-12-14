@@ -1,6 +1,9 @@
 version: "3"
 
 includes:
+  utils:
+    taskfile: ./utils/Taskfile.yaml
+    dir: ./utils
   api-golang:
     taskfile: ./services/go/api-golang/Taskfile.yaml
     dir: ./services/go/api-golang
