@@ -1,4 +1,7 @@
 {
+  "inputs": {
+    "services": "services/node/api-node"
+  },
   "repository": {
     "default_branch": "main"
   }

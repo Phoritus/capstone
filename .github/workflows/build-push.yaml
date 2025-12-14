@@ -1,26 +1,68 @@
 name: Build and Push Container Images
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - services/**
+    tags:
+      - "**@[0-9]*.[0-9]*.[0-9]*" # services/node/api-node@1.2.3
   workflow_dispatch:
-  
+    inputs:
+      services:
+        description: "Services to build"
+        type: choice
+        required: true
+        options:
+        - services/go/api-golang
+        - services/node/api-node
+        - services/other/api-golang-migrator
+        - services/python/load-generator-python
+        - services/react/client-react
+      version:
+        description: Version to use for tagging images
+        required: false
 jobs:
   filter:
     runs-on: ubuntu-latest
     outputs:
-      services: ${{ steps.filter.outputs.changes }}
+      services: ${{ steps.set-output.outputs.services }}
+      environment: ${{ steps.set-output.outputs.environment }}
+      version: ${{ steps.set-output.outputs.version }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
       - name: filter
         id: filter
+        if: github.event_name != 'workflow_dispatch' && github.ref_type != 'tag'
         uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
           filters: .github/utils/file-filter.yaml
+      - name: Set output
+        id: set-output
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "services=[\"${{ inputs.services }}\"]" >> $GITHUB_OUTPUT
+            echo "environment=development" >> $GITHUB_OUTPUT
+
+          elif [ "${{ github.ref_type }}" == "tag" ]; then
+            # services/node/api-node@1.2.3
+            tag="${GITHUB_REF_NAME}"
+            svc="${tag%%@*}"
+            echo "services=[\"$svc\"]" >> $GITHUB_OUTPUT
+            echo "environment=production" >> $GITHUB_OUTPUT
+          else
+            echo "services=${{ steps.filter.outputs.changes }}" >> $GITHUB_OUTPUT
+            echo "environment=staging" >> $GITHUB_OUTPUT
+          fi
 
   build-push-container-images:
     runs-on: ubuntu-latest
     needs: filter
+    # Handle empty List
+    if: ${{ needs.filter.outputs.services != '[]'  && needs.filter.outputs.services != '' }}
     strategy:
       fail-fast: false
       matrix:
@@ -50,7 +92,7 @@ jobs:
         id: image_tags
         working-directory: ${{ matrix.service }}
         env:
-          ENVIRONMENT: production
+          ENVIRONMENT: ${{ needs.filter.outputs.environment }}
           SERVICE: ${{ matrix.service }}
         run: |
           if [ "${ENVIRONMENT}" == "production" ]; then
@@ -67,12 +109,12 @@ jobs:
           echo "image_tag=${image_tag}"
         
 
-      # - name: Build and push images
-      #   uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0    
-      #   with:
-      #     context: ${{ matrix.service }}
-      #     push: ${{ !env.ACT }}
-      #     tags: ${{ steps.image_tags.outputs.image_tag }}
-      #     platforms: linux/amd64
-      #     cache-from: type=gha
-      #     cache-to: type=gha,mode=max
+      - name: Build and push images
+        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0    
+        with:
+          context: ${{ matrix.service }}
+          push: ${{ !env.ACT }}
+          tags: ${{ steps.image_tags.outputs.image_tag }}
+          platforms: linux/amd64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

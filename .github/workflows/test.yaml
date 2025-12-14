@@ -30,6 +30,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: filter
+    # Handle empty List
+    if: ${{ needs.filter.outputs.services != '[]'  && needs.filter.outputs.services != '' }}
     strategy:
       fail-fast: false
       matrix:

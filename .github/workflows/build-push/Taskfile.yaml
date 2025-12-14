@@ -11,6 +11,18 @@ tasks:
         act workflow_dispatch \
           -P ubuntu-latest=catthehacker/ubuntu:act-22.04 \
           -s GITHUB_TOKEN={{.GITHUB_TOKEN}} \
-          -e {{.PWD}}/event.json \
+          -e .github/workflows/build-push/event.json \
           --directory ../../.. \
           -W .github/workflows/build-push.yaml
+
+  trigger-workflow-tag:
+    desc: Triggers the workflow using act
+    cmds:
+      - |
+        act push \
+          -P ubuntu-latest=catthehacker/ubuntu:act-22.04 \
+          -s GITHUB_TOKEN={{.GITHUB_TOKEN}} \
+          -e .github/workflows/build-push/push-tag-event.json \
+          --directory ../../.. \
+          --no-skip-checkout \
+          -W .github/workflows/build-push.yaml  
