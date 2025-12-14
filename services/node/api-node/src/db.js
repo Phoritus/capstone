@@ -14,7 +14,7 @@ const pool = new Pool({
 // it contains if a backend error or network partition happens
 pool.on("error", (err, client) => {
   console.error("Unexpected error on idle client", err);
-  process.exit(-1); //nolint:forbidigo
+  process.exit(-1);
 });
 
 const getDateTimeAndRequests = async () => {
