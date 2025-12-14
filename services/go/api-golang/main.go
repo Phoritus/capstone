@@ -16,7 +16,7 @@ func init() {
 	if databaseUrl == "" {
 		content, err := ioutil.ReadFile(os.Getenv("DATABASE_URL_FILE"))
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal(err) //nolint:forbidigo
 		}
 		databaseUrl = string(content)
 	}
