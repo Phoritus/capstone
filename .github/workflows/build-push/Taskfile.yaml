@@ -4,14 +4,14 @@ env:
     sh: gh auth token
 
 tasks:
-  trigger-workflow:
+  trigger-workflow-dispatch:
     desc: Triggers the workflow using act
     cmds:
       - |
         act workflow_dispatch \
           -P ubuntu-latest=catthehacker/ubuntu:act-22.04 \
           -s GITHUB_TOKEN={{.GITHUB_TOKEN}} \
-          -e .github/workflows/build-push/event.json \
+          -e .github/workflows/build-push/workflow-dispatch.json \
           --directory ../../.. \
           -W .github/workflows/build-push.yaml
 
