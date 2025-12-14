@@ -38,6 +38,12 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Print context
+        run: |
+          echo "Services: ${{ matrix.service }}"
+          ls -R ${{ matrix.service }}
+          pwd 
       - name: Setup Node
         if: ${{ startsWith(matrix.service, 'services/node') || startsWith(matrix.service, 'services/react') }}
         uses: actions/setup-node@v4
