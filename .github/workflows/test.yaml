@@ -67,7 +67,7 @@ jobs:
       - name: Install Task
         uses: supplypike/setup-bin@v4
         with:
-          uri: https://github.com/go-task/task/releases/download/v3.45.5/task_linux_arm64.tar.gz
+          uri: https://github.com/go-task/task/releases/download/v3.45.5/task_linux_amd64.tar.gz
           name: task
           version: v3.45.5
       - name: Install app dependencies
