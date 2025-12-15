@@ -32,13 +32,16 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4.2.2
-      - name: Install Task
+      - name: Setup Dependencies
         uses: ./.github/actions/setup-dependencies
+        with:
+          task_version: v3.45.5
       - name: Update Manifests
         run: |
           task utils:update-image-tags-service \
             NEW_TAG="${{ inputs.version }}" \
             ENVIRONMENT="${{ inputs.environment }}" \
+            SERVICE="${{ inputs.service }}"
       - name: Check diff
         run: |
           git diff
