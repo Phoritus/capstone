@@ -63,6 +63,9 @@ jobs:
     needs: filter
     # Handle empty List
     if: ${{ needs.filter.outputs.services != '[]'  && needs.filter.outputs.services != '' }}
+    permissions:
+      actions: write
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -122,3 +125,14 @@ jobs:
           platforms: linux/amd64
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Trigger deploy
+        if: ${{ !env.ACT }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run update-gitops-manifests.yaml \
+            -F environment=${{ needs.filter.outputs.environment }} \
+            -F service=${{ matrix.service }} \
+            -F version=${{ steps.image_tags.outputs.version }}
+          
