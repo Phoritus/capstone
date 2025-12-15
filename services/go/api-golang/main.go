@@ -28,6 +28,7 @@ func init() {
 		log.Println("DATABASE CONNECTED 🥇")
 		log.Println("DATABASE URL: ", databaseUrl)
 		log.Println("DATABASE URL FILE: ", os.Getenv("DATABASE_URL_FILE"))
+		log.Println("DATABASE URL FILE: ", os.Getenv("DATABASE_URL_FILE"))
 	}
 
 }
