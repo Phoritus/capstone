@@ -18,6 +18,6 @@ jobs:
         with:
           otlpEndpoint: grpc://api.honeycomb.io:443/
           # Formatted as x-honeycomb-team=YOUR_API_KEY
-          otlpHeaders: ${{ secrets.HONEYCOMB_OTLP_HEADERS }}
+          otlpHeaders: x-honeycomb-team=${{ secrets.HONEYCOMB_OTLP_HEADERS }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           runId: ${{ github.event.workflow_run.id }}
