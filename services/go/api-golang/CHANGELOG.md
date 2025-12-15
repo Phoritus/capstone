@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/Phoritus/capstone/compare/services/go/api-golang@1.4.0...services/go/api-golang@1.5.0) (2025-12-15)
+
+
+### Features
+
+* Implement initial Go API with Gin, database connection, and basic endpoints. ([3f2705b](https://github.com/Phoritus/capstone/commit/3f2705b0afb7f7b8b2d9c786682de06403d7d916))
+
 ## [1.4.0](https://github.com/Phoritus/capstone/compare/services/go/api-golang@1.3.1...services/go/api-golang@1.4.0) (2025-12-15)
 
 
