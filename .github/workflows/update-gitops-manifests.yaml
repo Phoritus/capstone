@@ -30,6 +30,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ inputs.environment }}-${{ inputs.service }}
   cancel-in-progress: true
 
+permissions:
+  contents: write
+
 jobs:
   update-manifests:
     runs-on: ubuntu-latest
