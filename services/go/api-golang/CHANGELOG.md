@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.0](https://github.com/Phoritus/capstone/compare/services/go/api-golang@1.4.0...services/go/api-golang@1.5.0) (2025-12-15)
+
+
+### Features
+
+* Add GitHub Actions workflow for exporting timing data and initialize new Go API service. ([b0fe61c](https://github.com/Phoritus/capstone/commit/b0fe61c5d329d7c3a407081dd0f4e7c8774c5d29))
+* Implement initial Go API with Gin, database connection, and basic endpoints. ([3f2705b](https://github.com/Phoritus/capstone/commit/3f2705b0afb7f7b8b2d9c786682de06403d7d916))
+
 ## [1.4.0](https://github.com/Phoritus/capstone/compare/services/go/api-golang@1.3.1...services/go/api-golang@1.4.0) (2025-12-15)
 
 
