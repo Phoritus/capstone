@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/Phoritus/capstone/compare/services/other/api-golang-migrator@1.4.0...services/other/api-golang-migrator@1.5.0) (2025-12-15)
+
+
+### Chores
+
+* **services/other/api-golang-migrator:** Synchronize apis-and-db versions
+
 ## [1.4.0](https://github.com/Phoritus/capstone/compare/services/other/api-golang-migrator@1.3.1...services/other/api-golang-migrator@1.4.0) (2025-12-15)
 
 
