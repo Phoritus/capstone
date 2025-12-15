@@ -98,7 +98,7 @@ jobs:
         run: |
           if [ "${INPUT_VERSION}" != "" ]; then
             version=${INPUT_VERSION}
-            image_tag=${INPUT_VERSION}
+            image_tag=$(task utils:manual-version-tag -- "${INPUT_VERSION}")
           elif [ "${ENVIRONMENT}" == "production" ]; then
             version=$(task utils:generate-version -- "$SERVICE")
             image_tag=$(task utils:generate-version-tag -- "$SERVICE")
