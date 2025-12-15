@@ -32,10 +32,9 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4.2.2
-      - name: Setup Dependencies
+      - name: Install task
         uses: ./.github/actions/setup-dependencies
-        with:
-          task_version: v3.45.5
+
       - name: Update Manifests
         run: |
           task utils:update-image-tags-service \

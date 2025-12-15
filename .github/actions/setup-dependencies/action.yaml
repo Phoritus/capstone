@@ -19,8 +19,3 @@ runs:
         uri: https://github.com/go-task/task/releases/download/${{ inputs.task_version }}/task_linux_amd64.tar.gz
         name: task
         version: ${{ inputs.task_version }}
-    
-    - name: Check Task Version
-      if: ${{ inputs.install_task == 'true' }}
-      run: task --version
-      shell: bash
