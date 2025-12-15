@@ -1,0 +1,17 @@
+version: 3
+env:
+  GITHUB_TOKEN:
+    sh: gh auth token
+
+tasks:
+  trigger-workflow:
+    desc: Triggers the workflow using act
+    cmds:
+      - |
+        act workflow_dispatch \
+          -s GITHUB_TOKEN={{.GITHUB_TOKEN}} \
+          -e {{.PWD}}/event.json \
+          -P ubuntu-latest=catthehacker/ubuntu:act-22.04 \
+          -P ubuntu-24.04=catthehacker/ubuntu:act-22.04 \
+          --directory ../../.. \
+          -W .github/workflows/update-gitops-manifests.yaml

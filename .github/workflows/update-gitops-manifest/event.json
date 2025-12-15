@@ -1,0 +1,7 @@
+{
+  "inputs": {
+    "service": "services/go/api-golang",
+    "version": "1.0.0",
+    "environment": "staging"
+  }
+}
